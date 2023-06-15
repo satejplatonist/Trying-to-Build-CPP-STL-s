@@ -8,14 +8,12 @@ namespace std
    {
       private:
       T* value;
-      T* temp;
       int arraySize{1};
 
       public:
       vector()
       {
         value=NULL;
-        temp=NULL;
       }
 
       int size()
@@ -25,6 +23,7 @@ namespace std
 
       void push(T val)
       {
+        T* temp;  
         if(value==NULL)
         {
           value=new T[arraySize];
@@ -48,6 +47,7 @@ namespace std
 
       T pop()
       {
+        T* temp;  
         int popIndex=arraySize-1;
         T t = value[popIndex];
         arraySize=arraySize-1;
@@ -75,12 +75,12 @@ namespace std
         return value[index];  
       }
 
-      T front()const
+      T& front()const
       {
           return (value[arraySize-1]);
       }
 
-      T back()const
+      T& back()const
       {
           return (value[0]);
       }
