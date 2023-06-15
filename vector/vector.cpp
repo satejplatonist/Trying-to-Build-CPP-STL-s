@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 namespace std
 {
@@ -64,6 +65,19 @@ namespace std
           reset();
         }
       }
+      T operator[](int index)const
+      {
+        return value[index];  
+      }
+      T front()const
+      {
+          return (value[arraySize-1]);
+      }
+      T back()const
+      {
+          return (value[0]);
+      }
+      private:
       void reset()
       {
         arraySize=1;
@@ -74,15 +88,17 @@ namespace std
 
 int main() 
 {
-  std::vector<int> v;
-  v.push(1);
-  v.push(2);
-  v.push(3);
+  std::vector<std::string> v;
+  v.push("1");
+  v.push("2");
+  v.push("3");
+  std::cout<<"the element is : "<<v[1]<<"\n";
+  std::cout<<"front element is : "<<v.front()<<"\nback(last) element is : "<<v.back()<<"\n";
   std::cout<<"size : "<<v.size()<<"\n";
   std::cout<<v.pop()<<"\n";
   std::cout<<v.pop()<<"\n";
   std::cout<<"size : "<<v.size()<<"\n";
-  v.push(4);
+  v.push("4");
   std::cout<<"size : "<<v.size()<<"\n";
   std::cout<<v.pop()<<"\n";
   std::cout<<"size : "<<v.size()<<"\n";
