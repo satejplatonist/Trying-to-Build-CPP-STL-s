@@ -24,10 +24,7 @@ namespace my
         {
             value = obj.value;
         }
-        friend std::ostream &operator<<(std::ostream &out, const String &obj);
-        friend std::istream &operator>>(std::istream &in, const String &obj);
-        friend bool operator==(String &obj1, String &obj2);
-        inline unsigned int size()
+        inline unsigned int size() const noexcept
         {
             int count{0};
             char *tp = new char;
@@ -39,6 +36,17 @@ namespace my
             }
             return count;
         }
+        bool empty() const noexcept
+        {
+            if(value==nullptr)
+            {
+                return true;
+            }
+            return false;
+        }
+        friend std::ostream &operator<<(std::ostream &out, const String &obj);
+        friend std::istream &operator>>(std::istream &in, const String &obj);
+        friend bool operator==(String &obj1, String &obj2);
         friend char *operator+(String &obj1, String &obj2);
     };
     bool operator==(String &obj1, String &obj2)
