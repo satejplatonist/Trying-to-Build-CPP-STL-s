@@ -109,6 +109,7 @@ namespace my
             ptr++;
             i++;
           }
+          delete[] value;
           value=temp;
         }
       }
@@ -246,7 +247,7 @@ int main()
   }
   s1.at(2)='s';
   my::String s3{s1+s2};
-  s3.resize(5);
+  s3.resize(7);
   std::cout<<s1<<" "<<s3<<"\n";
   s1.reserve(20);
   std::cout<<s1.capacity()<<"\n";
