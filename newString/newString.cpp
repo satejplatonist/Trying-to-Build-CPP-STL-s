@@ -96,6 +96,20 @@ namespace my
       {
         return (string_size_t);
       }
+      char* substr(size_type start,size_type length=0)
+      {
+        if(length==0)
+        {
+          length=size();
+        }
+        char* temp=new char[length-start];
+        int j{0};
+        for(int i=start;i<length;i++)
+        {
+          temp[j]=value[i];
+        }
+        return temp;
+      }
       void resize(size_type count)
       {
         if(value==nullptr )
@@ -129,8 +143,31 @@ namespace my
         }
         else
         {
-          char* temp=new char[count];
-          
+          if(count<=size())
+          {
+            char* temp=new char[count];
+            int i{0};
+            char* ptr=value;
+            while(i!=count)
+            {
+              temp[i]=*ptr;
+              ptr++;
+              i++;
+            }
+            delete[] value;
+            value=temp;  
+          }
+          else
+          {
+            char* temp=new char[count];
+            str_copy(temp, value);
+            delete[] value;
+            value=temp;
+            for(int i=size();i<capacity();i++)
+            {
+              value[i]=ch;
+            }
+          }
         }
       }
       void reserve(size_type newCap)
@@ -285,24 +322,7 @@ int main()
 {
   my::String s1{"satej"};
   my::String s2{"shivp"};
-  s1=s2;
-  if(s1!=s2)
-  {
-    std::cout<<"true\n";
-  }
-  else
-  {
-    if(s1==s2)
-    {
-      std::cout<<"false\n";
-      s1.at(2)='s';
-      my::String s3{s1+s2};
-      s3.resize(7);
-      std::cout<<s1<<" "<<s3<<"\n";
-      s1.reserve(20);
-      std::cout<<s1.capacity()<<"\n";
-      s1.swap(s2);
-      std::cout<<s1<<" "<<s2<<"\n";
-    }
-  }
+  std::cout<<s2.contains("hi")<<"\n";
+  my::String foo=s1.substr(2);
+  std::cout<<foo; 
 }
