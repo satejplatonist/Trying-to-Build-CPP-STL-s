@@ -71,6 +71,10 @@ namespace my
         {
           std::cout<<"ERROR:STD::OUT_OF_RANGE";
         }
+        else if(pos<0)
+        {
+          std::cout<<"ERROR:STD::BAD_LENGTH";
+        }
         return value[pos];
       }
       char& front()
@@ -113,10 +117,22 @@ namespace my
           value=temp;
         }
       }
-      /*void resize(size_type count,char ch)
+      void resize(size_type count,char ch)
       {
-         
-      }*/
+        if(value==nullptr)
+        {
+          value=new char[count];
+          for(int i=0;i<=count;i++)
+          {
+            value[i]=ch;
+          }
+        }
+        else
+        {
+          char* temp=new char[count];
+          
+        }
+      }
       void reserve(size_type newCap)
       {
         if(value==nullptr)
