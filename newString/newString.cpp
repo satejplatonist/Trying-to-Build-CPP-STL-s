@@ -181,6 +181,7 @@ namespace my
       }
       friend std::ostream &operator<<(std::ostream &out, const String &obj);
       friend bool operator==(String &obj1, String &obj2);
+      friend bool operator!=(String &obj1, String &obj2);
       friend char *operator+(String &obj1, String &obj2);
       char& operator[](size_type index)
       {
@@ -213,6 +214,38 @@ namespace my
           if (obj1.value[i] != obj2.value[i])
           {
               temp = false;
+              return temp;
+          }
+          i++;
+      }
+      return temp;
+  }
+  bool operator!=(String &obj1, String &obj2)
+  {
+      const unsigned int a = obj1.size();
+      const unsigned int b = obj2.size();
+      if (a != b)
+      {
+          bool temp = false;
+          int i{0};
+          while (i != std::min(a, b))
+          {
+              if (obj1.value[i] != obj2.value[i])
+              {
+                  temp = true;
+                  return temp;
+              }
+              i++;
+          }
+          return temp;
+      }
+      bool temp = false;
+      int i{0};
+      while (i != a)
+      {
+          if (obj1.value[i] != obj2.value[i])
+          {
+              temp = true;
               return temp;
           }
           i++;
@@ -253,20 +286,23 @@ int main()
   my::String s1{"satej"};
   my::String s2{"shivp"};
   s1=s2;
-  if(s1==s2)
+  if(s1!=s2)
   {
     std::cout<<"true\n";
   }
   else
   {
-    std::cout<<"false\n";
+    if(s1==s2)
+    {
+      std::cout<<"false\n";
+      s1.at(2)='s';
+      my::String s3{s1+s2};
+      s3.resize(7);
+      std::cout<<s1<<" "<<s3<<"\n";
+      s1.reserve(20);
+      std::cout<<s1.capacity()<<"\n";
+      s1.swap(s2);
+      std::cout<<s1<<" "<<s2<<"\n";
+    }
   }
-  s1.at(2)='s';
-  my::String s3{s1+s2};
-  s3.resize(7);
-  std::cout<<s1<<" "<<s3<<"\n";
-  s1.reserve(20);
-  std::cout<<s1.capacity()<<"\n";
-  s1.swap(s2);
-  std::cout<<s1<<" "<<s2<<"\n";
 }
