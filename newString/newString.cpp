@@ -57,6 +57,10 @@ namespace my
       {
          delete[] value;
       }
+      constexpr void clear()const noexcept
+      {
+         delete[] value;
+      }
       inline size_type size() const noexcept
       {
           return size(value);
@@ -84,6 +88,17 @@ namespace my
       char& back()
       {
         return value[size()-1];
+      }
+      void push_back(char ch)
+      {
+        size_type m=size();
+        resize(m+1);
+        m=m+1;
+        value[m-1]=ch;
+      }
+      void pop_back()
+      {
+        resize(size()-1);
       }
       constexpr void swap(String& other) noexcept
       {
@@ -444,7 +459,8 @@ int main()
   my::String s1{"satej is the biggest emperor"};
   my::String s2{"shivp"};
   s2+=s1;
-  s2.append(s2,3);
+  s2.push_back('a');
+  s2.pop_back();
   std::cout<<s2<<"\n";
   my::String foo=s1.substr(2);
   std::cout<<foo; 
