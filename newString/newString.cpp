@@ -266,7 +266,30 @@ namespace my
         return value[index];
       }
    };
-  
+  char *operator+=(String &obj1, String &obj2)
+  {
+    size_t m=obj1.size();
+    size_t n=obj2.size();
+    char* temp=new char[m+n+4];
+    int i{0};
+    char *tp1 = obj1.value;
+    char *tp2 = obj2.value;
+    while (*tp1 != '\0')
+    {
+        temp[i] = *tp1;
+        tp1++;
+        i++;
+    }
+    while (*tp2 != '\0')
+    {
+        temp[i] = *tp2;
+        tp2++;
+        i++;
+    }
+    delete[] obj1.value;
+    obj1.value=temp;
+    return obj1.value;
+  }
   bool operator==(String &obj1, String &obj2)
   {
       const unsigned int a = obj1.size();
@@ -364,7 +387,8 @@ int main()
 {
   my::String s1{"satej is the biggest emperor"};
   my::String s2{"shivp"};
-  std::cout<<s2.contains("is biggest")<<" ";
+  s2+=s1;
+  std::cout<<s2<<"\n";
   my::String foo=s1.substr(2);
   std::cout<<foo; 
 }
