@@ -220,8 +220,64 @@ namespace my
         }
         return true;
       }
+      char* append(const char* tt,unsigned int count=1)
+      {
+        size_t m=size();
+        size_t n=size(const_cast<char*>(tt));
+        char* temp=new char[m+(n*count)+4];
+        int i{0};
+        char *tp1 = value;
+        char *tp2 = const_cast<char*>(tt);
+        while (*tp1 != '\0')
+        {
+            temp[i] = *tp1;
+            tp1++;
+            i++;
+        }
+        for(int j=0;j<count;j++)
+        {
+           while (*tp2 != '\0')
+           {
+              temp[i] = *tp2;
+              tp2++;
+              i++;
+           }
+           tp2 = const_cast<char*>(tt);
+        }
+        delete[] value;
+        value = temp;
+        return value;
+      }
+      char* append(String &obj,unsigned int count=1)
+      {
+        size_type m=size();
+        size_type n=obj.size();
+        char* temp=new char[m+(n*count)+4];
+        int i{0};
+        char *tp1 = value;
+        char *tp2 = obj.value;
+        while (*tp1 != '\0')
+        {
+            temp[i] = *tp1;
+            tp1++;
+            i++;
+        }
+        for(int j=0;j<count;j++)
+        {
+           while (*tp2 != '\0')
+           {
+              temp[i] = *tp2;
+              tp2++;
+              i++;
+           }
+           tp2 = obj.value;
+        }
+        delete[] value;
+        value = temp;
+        return value;
+      }
       private:
-      bool check_str(int i,char* t,int n,bool &v)
+      inline bool check_str(int i,char* t,int n,bool &v)const noexcept
       {
         for(int j=i;j<i+n;j++)
         {
@@ -260,13 +316,13 @@ namespace my
       friend bool operator==(String &obj1, String &obj2);
       friend bool operator!=(String &obj1, String &obj2);
       friend char *operator+(String &obj1, String &obj2);
-      friend char *operator+=(String &obj1, String &obj2);
+      friend String &operator+=(String &obj1, String &obj2);
       char& operator[](size_type index)
       {
         return value[index];
       }
    };
-  char *operator+=(String &obj1, String &obj2)
+  String &operator+=(String &obj1, String &obj2)
   {
     size_t m=obj1.size();
     size_t n=obj2.size();
@@ -288,7 +344,7 @@ namespace my
     }
     delete[] obj1.value;
     obj1.value=temp;
-    return obj1.value;
+    return obj1;
   }
   bool operator==(String &obj1, String &obj2)
   {
@@ -388,6 +444,7 @@ int main()
   my::String s1{"satej is the biggest emperor"};
   my::String s2{"shivp"};
   s2+=s1;
+  s2.append(s2,3);
   std::cout<<s2<<"\n";
   my::String foo=s1.substr(2);
   std::cout<<foo; 
