@@ -96,6 +96,33 @@ namespace my
       {
         return (string_size_t);
       }
+      bool contains(const char* t)
+      {
+        size_type m=size();
+        size_type n=size(const_cast<char*>(t));
+        bool val=false;
+        for(int i=0;i<m-n+1;i++)
+        {
+           val=check_str(i,const_cast<char*>(t),n,val);
+        }
+        return val;
+      }
+      bool ends_with(char sv)const noexcept
+      {
+        if(value[size()-1]==sv)
+        {
+          return true;
+        }
+        return false;
+      }
+      bool starts_with(char sv)
+      {
+        if(value[0]==sv)
+        {
+          return true;
+        }
+        return false;
+      }
       char* substr(size_type start,size_type length=0)
       {
         if(length==0)
@@ -194,6 +221,19 @@ namespace my
         return true;
       }
       private:
+      bool check_str(int i,char* t,int n,bool &v)
+      {
+        for(int j=i;j<i+n;j++)
+        {
+          if(value[j]!=*t)
+          {
+            return v;
+          }
+          t++;
+        }
+        v=true;
+        return v;
+      } 
       inline unsigned int size(char* _tp)const noexcept
       {
           int count{0};
@@ -220,11 +260,13 @@ namespace my
       friend bool operator==(String &obj1, String &obj2);
       friend bool operator!=(String &obj1, String &obj2);
       friend char *operator+(String &obj1, String &obj2);
+      friend char *operator+=(String &obj1, String &obj2);
       char& operator[](size_type index)
       {
         return value[index];
       }
    };
+  
   bool operator==(String &obj1, String &obj2)
   {
       const unsigned int a = obj1.size();
@@ -320,9 +362,9 @@ namespace my
 
 int main()
 {
-  my::String s1{"satej"};
+  my::String s1{"satej is the biggest emperor"};
   my::String s2{"shivp"};
-  std::cout<<s2.contains("hi")<<"\n";
+  std::cout<<s2.contains("is biggest")<<" ";
   my::String foo=s1.substr(2);
   std::cout<<foo; 
 }
