@@ -57,7 +57,7 @@ namespace my
       {
          delete[] value;
       }
-      constexpr void clear()const noexcept
+      void clear()const noexcept
       {
          delete[] value;
       }
@@ -317,6 +317,18 @@ namespace my
           }
           return count;
       }
+      inline unsigned int size_temp(char* _tp)const noexcept
+      {
+          int count{0};
+          char *tp = new char;
+          tp = _tp;
+          while (*tp != ' ')
+          {
+              count++;
+              tp++;
+          }
+          return count;
+      }
       inline void str_copy(char* &ref,const char* _tr)
       {
          int i{0};
@@ -332,11 +344,31 @@ namespace my
       friend bool operator!=(String &obj1, String &obj2);
       friend char *operator+(String &obj1, String &obj2);
       friend String &operator+=(String &obj1, String &obj2);
+      friend std::istream &operator>>(std::istream &in,const String &obj);
+      friend void getline(std::istream& in,String& obj);
       char& operator[](size_type index)
       {
         return value[index];
       }
    };
+  void getline(std::istream& in,String& obj)
+  {
+    if(obj.value==nullptr)
+    {
+      char* temp=new char;
+      in>>temp;
+      obj.value=new char[obj.size(temp)+4];
+      obj.str_copy(obj.value,const_cast<const char*>(temp));
+    }
+    else
+    {
+      delete[] obj.value;
+      char* temp=new char;
+      in>>temp;
+      obj.value=new char[obj.size(temp)+4];
+      obj.str_copy(obj.value,const_cast<const char*>(temp));
+    }
+  }
   String &operator+=(String &obj1, String &obj2)
   {
     size_t m=obj1.size();
@@ -452,12 +484,14 @@ namespace my
       out << obj.value;
       return out;
   }
+  
 }
 
 int main()
 {
-  my::String s1{"satej is the biggest emperor"};
-  my::String s2{"shivp"};
+  my::String s1{"satej is not the emperor"};
+  my::String s2;
+  my::getline(std::cin>>std::ws,s2);
   s2+=s1;
   s2.push_back('a');
   s2.pop_back();
