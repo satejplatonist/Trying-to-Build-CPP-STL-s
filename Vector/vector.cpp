@@ -529,18 +529,40 @@ namespace my
                 temp = nullptr;
             }
         }
-        constexpr void swap(Vector& other)
+        constexpr void swap(Vector& obj)
         {
             if(array == nullptr)
             {
-                array_size = other.array_size;
+                array_size = obj.array_size;
                 array = new T[array_size];
-                T* temp = new T[array_size];
                 for (int i =0; i < array_size; i++)
                 {
-                    
+                    array[i] = obj.array[i];
                 }
             }
+           
+            const size_type max_temp_size = std::max(array_size , obj.array_size);
+            T* temp = new T[max_temp_size];
+            const size_type size1 = array_size;
+            const size_type size2 = obj.array_size;
+            for(int i = 0; i < array_size; i++)
+            {
+                temp[i] = array[i];
+            }
+            delete[] array;
+            array = new T[size2];
+            for(int i = 0; i < size2; i++)
+            {
+                array[i] = obj.array[i];
+            }
+            delete[] obj.array;
+            obj.array = new T[size1];
+            for(int i = 0; i < size1; i++)
+            {
+                obj.array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
         }
         ~Vector()
         {
@@ -572,6 +594,10 @@ namespace my
 int main()
 {
     my::Vector<int> v{1, 2, 3, 4, 5, 6};
+    my::Vector<int> v0{6, 5, 4, 3, 2, 1};
+    v0.swap(v);
+    v.print();
+    std::cout<<"\n";
     std::cout << v.empty() << "\n";
     my::Vector<int> dem = {2,3,4,5,6,7,1,2,3,4,4,5,6,7,8,90,1,2,3,4,5,6};
     std::cout << "size of array before reserve is : " << dem.size() << "\n";
