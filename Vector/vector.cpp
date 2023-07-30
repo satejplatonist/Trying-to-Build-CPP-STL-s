@@ -529,6 +529,19 @@ namespace my
                 temp = nullptr;
             }
         }
+        constexpr void swap(Vector& other)
+        {
+            if(array == nullptr)
+            {
+                array_size = other.array_size;
+                array = new T[array_size];
+                T* temp = new T[array_size];
+                for (int i =0; i < array_size; i++)
+                {
+                    
+                }
+            }
+        }
         ~Vector()
         {
             delete[] array;
