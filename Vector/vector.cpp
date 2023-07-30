@@ -17,12 +17,13 @@ namespace my
 
     private:
         T* array;
-        static inline size_type array_size;
+        static inline size_type array_size{0};
 
     public:
         Vector()
         {
             array = nullptr;
+            array_size = 0;
         }
         Vector(size_type count)
         {
@@ -60,11 +61,24 @@ namespace my
         }
         void operator=(const Vector& obj)
         {
-            array_size = obj.array_size;
-            array = new T[array_size];
-            for (int i = 0; i < array_size; i++)
+            if (array == nullptr)
             {
-                array[i] = obj.array[i];
+                array_size = obj.array_size;
+                array = new T[array_size];
+                for (int i = 0; i < array_size; i++)
+                {
+                    array[i] = obj.array[i];
+                }
+            }
+            else
+            {
+                delete[] array;
+                array_size = obj.array_size;
+                array = new T[array_size];
+                for (int i = 0; i < array_size; i++)
+                {
+                    array[i] = obj.array[i];
+                }
             }
         }
         void operator=(std::initializer_list<T> init_copy)
@@ -160,6 +174,10 @@ namespace my
         {
             return array_size;
         }
+        constexpr size_type capacity()const noexcept
+        {
+            return array_size;
+        }
         constexpr void reserve(size_type r_count)
         {
             if (array == nullptr)
@@ -186,9 +204,226 @@ namespace my
                 temp = nullptr;
             }
         }
+        constexpr void clear()noexcept
+        {
+            delete[] array;
+            array = nullptr;
+            array_size = 0;
+        }
+        void insert(size_type pos, const_reference value)
+        {
+            const size_type temp_counter = array_size;
+            array_size = array_size + 1;
+            T* temp = new T[array_size];
+            for (int i = 0; i < pos; i++)
+            {
+                temp[i] = array[i];
+            }
+            temp[pos] = value;
+            size_type j = pos;
+            for (size_type i = pos + 1; i < array_size; i++)
+            {
+                if (j < temp_counter)
+                {
+                    temp[i] = array[j];
+                    j++;
+                }  
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;   
+            if (array == nullptr)
+            {
+                array_size = 1;
+                array = new T[array_size];
+                array[pos] = value;
+            }
+        }
+        void insert(size_type pos, T&& value)
+        {
+            const size_type temp_counter = array_size;
+            array_size = array_size + 1;
+            T* temp = new T[array_size];
+            for (int i = 0; i < pos; i++)
+            {
+                temp[i] = array[i];
+            }
+            temp[pos] = value;
+            size_type j = pos;
+            for (size_type i = pos + 1; i < array_size; i++)
+            {
+                if (j < temp_counter)
+                {
+                    temp[i] = array[j];
+                    j++;
+                }
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
+            if (array == nullptr)
+            {
+                array_size = 1;
+                array = new T[array_size];
+                array[pos] = value;
+            }
+        }
+        void insert(size_type pos, size_type count, const_reference value)
+        {
+            const size_type temp_counter = array_size;
+            array_size = array_size + count;
+            T* temp = new T[array_size];
+            for (int i = 0; i < pos; i++)
+            {
+                temp[i] = array[i];
+            }
+            for (int i = pos; i < pos + count ; i++)
+            {
+                temp[i] = value;
+            }
+            size_type j = pos;
+            for (size_type i = pos+ count ; i < array_size; i++)
+            {
+                if (j < temp_counter)
+                {
+                    temp[i] = array[j];
+                    j++;
+                }
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
+        }
+        void insert(size_type pos, std::initializer_list<T> init_insert)
+        {
+            const size_type temp_counter = array_size;
+            const size_type init_list_counter = init_insert.size();
+            array_size = array_size + init_insert.size();
+            T* temp = new T[array_size];
+            for (int i = 0; i < pos; i++)
+            {
+                temp[i] = array[i];
+            }
+            const T* ptr = init_insert.begin(); 
+            for (int i = pos; i < pos + init_list_counter; i++)
+            {
+                if (ptr != init_insert.end())
+                {
+                    temp[i] = *ptr;
+                    ptr++;
+                } 
+            }
+            size_type j = pos;
+            for (size_type i = pos + init_list_counter; i < array_size; i++)
+            {
+                if (j < temp_counter)
+                {
+                    temp[i] = array[j];
+                    j++;
+                }
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
+        }
+        constexpr void erase(const_reference pos)
+        {
+            const size_type tempHolder = array_size;
+            array_size = array_size - 1;
+            T* temp = new T[array_size];
+            for (int i = 0; i < pos; i++)
+            {
+                temp[i] = array[i];
+            }
+            size_type j = pos + 1;
+            for (int i = pos; i < array_size; i++)
+            {
+                if (j < tempHolder)
+                {
+                    temp[i] = array[j];
+                    j++;
+                }
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
+        }
+        constexpr void erase(const_reference first, const_reference last)
+        {
+            const size_type tempHolder = array_size;
+            array_size = array_size - (last-first);
+            T* temp = new T[array_size];
+            for (int i = 0; i < first; i++)
+            {
+                temp[i] = array[i];
+            }
+            size_type j = last ;
+            for (int i = first; i < array_size; i++)
+            {
+                if (j < tempHolder)
+                {
+                    temp[i] = array[j];
+                    j++;
+                }
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
+        }
+        constexpr void push_back(const_reference element)
+        {
+            const size_type tempHolder = array_size;
+            array_size = array_size + 1;
+            T* temp = new T[array_size];
+            for (int i = 0; i < tempHolder; i++)
+            {
+                temp[i] = array[i];
+            }
+            temp[array_size - 1] = element;
+            delete[] array;
+            for (int i = 0;i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;
+            temp = nullptr;
+        }
+
         ~Vector()
         {
             delete[] array;
+            array = nullptr;
+            array_size = 0;
         }
         void print()
         {
@@ -220,9 +455,16 @@ int main()
     dem.reserve(4);
     std::cout << "\size of array after reserve is : " << dem.size() << "\n";
     dem.assign({1,2,3,4,5});
+    dem.insert(0,{8,6,9,3});
+    dem.print(); std::cout << "\n";
+    dem.erase(1,3);
+    dem.print(); std::cout << "\n";
     dem.at(1) = 78;
     dem[2] = 8;
     std::cout << dem[2]<<"\n";
+    dem.print();
+    dem.push_back(99);
+    std::cout << "\n";
     dem.print();
     std::cout << "\nHello World!\n";
 }
