@@ -227,7 +227,7 @@ namespace my
                 {
                     temp[i] = array[j];
                     j++;
-                }  
+                }
             }
             delete[] array;
             array = new T[array_size];
@@ -236,7 +236,7 @@ namespace my
                 array[i] = temp[i];
             }
             delete[] temp;
-            temp = nullptr;   
+            temp = nullptr;
             if (array == nullptr)
             {
                 array_size = 1;
@@ -287,12 +287,12 @@ namespace my
             {
                 temp[i] = array[i];
             }
-            for (int i = pos; i < pos + count ; i++)
+            for (int i = pos; i < pos + count; i++)
             {
                 temp[i] = value;
             }
             size_type j = pos;
-            for (size_type i = pos+ count ; i < array_size; i++)
+            for (size_type i = pos + count; i < array_size; i++)
             {
                 if (j < temp_counter)
                 {
@@ -319,14 +319,14 @@ namespace my
             {
                 temp[i] = array[i];
             }
-            const T* ptr = init_insert.begin(); 
+            const T* ptr = init_insert.begin();
             for (int i = pos; i < pos + init_list_counter; i++)
             {
                 if (ptr != init_insert.end())
                 {
                     temp[i] = *ptr;
                     ptr++;
-                } 
+                }
             }
             size_type j = pos;
             for (size_type i = pos + init_list_counter; i < array_size; i++)
@@ -376,13 +376,13 @@ namespace my
         constexpr void erase(const_reference first, const_reference last)
         {
             const size_type tempHolder = array_size;
-            array_size = array_size - (last-first);
+            array_size = array_size - (last - first);
             T* temp = new T[array_size];
             for (int i = 0; i < first; i++)
             {
                 temp[i] = array[i];
             }
-            size_type j = last ;
+            size_type j = last;
             for (int i = first; i < array_size; i++)
             {
                 if (j < tempHolder)
@@ -411,7 +411,7 @@ namespace my
             }
             temp[array_size - 1] = element;
             delete[] array;
-            for (int i = 0;i < array_size; i++)
+            for (int i = 0; i < array_size; i++)
             {
                 array[i] = temp[i];
             }
@@ -435,37 +435,37 @@ namespace my
             delete[] temp;;
             temp = nullptr;
         }
-        constexpr void resize( size_type count )
+        constexpr void resize(size_type count)
         {
-            if(count > array_size)
+            if (count > array_size)
             {
                 const size_type tempHolder = array_size;
                 array_size = count;
                 T* temp = new T[array_size];
-                for(int i = 0; i < tempHolder; i++)
+                for (int i = 0; i < tempHolder; i++)
                 {
                     temp[i] = array[i];
                 }
                 delete[] array;
                 array = new T[array_size];
-                for(int i = 0; i < tempHolder; i++)
+                for (int i = 0; i < tempHolder; i++)
                 {
                     array[i] = temp[i];
                 }
                 delete[] temp;
                 temp = nullptr;
             }
-            else if(count < array_size)
+            else if (count < array_size)
             {
                 array_size = count;
                 T* temp = new T[array_size];
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
                     temp[i] = array[i];
                 }
                 delete[] array;
                 array = new T[array_size];
-                for(int i = 0; i < array_size; i++)
+                for (int i = 0; i < array_size; i++)
                 {
                     array[i] = temp[i];
                 }
@@ -478,33 +478,33 @@ namespace my
                 array = new T[count];
             }
         }
-        constexpr void resize( size_type count, const value_type& value )
+        constexpr void resize(size_type count, const value_type& value)
         {
-            if(array == nullptr)
+            if (array == nullptr)
             {
                 array_size = count;
                 array = new T[array_size];
-                for(int i =0; i < array_size; i++)
+                for (int i = 0; i < array_size; i++)
                 {
                     array[i] = value;
                 }
             }
-            if(count > array_size)
+            if (count > array_size)
             {
                 const size_type tempHolder = array_size;
                 array_size = count;
                 T* temp = new T[array_size];
-                for(int i = 0; i < tempHolder; i++)
+                for (int i = 0; i < tempHolder; i++)
                 {
                     temp[i] = array[i];
                 }
                 delete[] array;
                 array = new T[array_size];
-                for(int i = 0; i < tempHolder; i++)
+                for (int i = 0; i < tempHolder; i++)
                 {
                     array[i] = temp[i];
                 }
-                for(int i = tempHolder; i < array_size; i++)
+                for (int i = tempHolder; i < array_size; i++)
                 {
                     array[i] = value;
                 }
@@ -515,13 +515,13 @@ namespace my
             {
                 array_size = count;
                 T* temp = new T[array_size];
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
                     temp[i] = array[i];
                 }
                 delete[] array;
                 array = new T[array_size];
-                for(int i = 0; i < array_size; i++)
+                for (int i = 0; i < array_size; i++)
                 {
                     array[i] = temp[i];
                 }
@@ -531,33 +531,33 @@ namespace my
         }
         constexpr void swap(Vector& obj)
         {
-            if(array == nullptr)
+            if (array == nullptr)
             {
                 array_size = obj.array_size;
                 array = new T[array_size];
-                for (int i =0; i < array_size; i++)
+                for (int i = 0; i < array_size; i++)
                 {
                     array[i] = obj.array[i];
                 }
             }
-           
-            const size_type max_temp_size = std::max(array_size , obj.array_size);
+
+            const size_type max_temp_size = std::max(array_size, obj.array_size);
             T* temp = new T[max_temp_size];
             const size_type size1 = array_size;
             const size_type size2 = obj.array_size;
-            for(int i = 0; i < array_size; i++)
+            for (int i = 0; i < array_size; i++)
             {
                 temp[i] = array[i];
             }
             delete[] array;
             array = new T[size2];
-            for(int i = 0; i < size2; i++)
+            for (int i = 0; i < size2; i++)
             {
                 array[i] = obj.array[i];
             }
             delete[] obj.array;
             obj.array = new T[size1];
-            for(int i = 0; i < size1; i++)
+            for (int i = 0; i < size1; i++)
             {
                 obj.array[i] = temp[i];
             }
@@ -587,7 +587,26 @@ namespace my
             end_ptr = &array[array_size - 1];
             return (end_ptr);
         }
+        //template <>
+        //friend bool operator==(Vector& obj1, Vector& obj2);
     };
+
+    /*template <typename U>
+    bool Vector<T>::operator==(Vector& obj1, Vector& obj2)
+    {
+        if (obj1.array_size == obj2.array_size)
+        {
+            for (int i = 0; i < std::min(obj1.array_size, obj2.array_size); i++)
+            {
+                if (obj1.array[i] != obj2.array)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }*/
 }
 
 
@@ -597,20 +616,20 @@ int main()
     my::Vector<int> v0{6, 5, 4, 3, 2, 1};
     v0.swap(v);
     v.print();
-    std::cout<<"\n";
+    std::cout << "\n";
     std::cout << v.empty() << "\n";
-    my::Vector<int> dem = {2,3,4,5,6,7,1,2,3,4,4,5,6,7,8,90,1,2,3,4,5,6};
+    my::Vector<int> dem = { 2,3,4,5,6,7,1,2,3,4,4,5,6,7,8,90,1,2,3,4,5,6 };
     std::cout << "size of array before reserve is : " << dem.size() << "\n";
     dem.reserve(4);
     std::cout << "size of array after reserve is : " << dem.size() << "\n";
-    dem.assign({1,2,3,4,5});
-    dem.insert(0,{8,6,9,3});
+    dem.assign({ 1,2,3,4,5 });
+    dem.insert(0, { 8,6,9,3 });
     dem.print(); std::cout << "\n";
-    dem.erase(1,3);
+    dem.erase(1, 3);
     dem.print(); std::cout << "\n";
     dem.at(1) = 78;
     dem[2] = 8;
-    std::cout << dem[2]<<"\n";
+    std::cout << dem[2] << "\n";
     dem.print();
     dem.push_back(99);
     std::cout << "\n";
