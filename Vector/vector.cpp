@@ -418,7 +418,117 @@ namespace my
             delete[] temp;
             temp = nullptr;
         }
-
+        constexpr void pop_back()
+        {
+            array_size = array_size - 1;
+            T* temp = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                temp[i] = array[i];
+            }
+            delete[] array;
+            array = new T[array_size];
+            for (int i = 0; i < array_size; i++)
+            {
+                array[i] = temp[i];
+            }
+            delete[] temp;;
+            temp = nullptr;
+        }
+        constexpr void resize( size_type count )
+        {
+            if(count > array_size)
+            {
+                const size_type tempHolder = array_size;
+                array_size = count;
+                T* temp = new T[array_size];
+                for(int i = 0; i < tempHolder; i++)
+                {
+                    temp[i] = array[i];
+                }
+                delete[] array;
+                array = new T[array_size];
+                for(int i = 0; i < tempHolder; i++)
+                {
+                    array[i] = temp[i];
+                }
+                delete[] temp;
+                temp = nullptr;
+            }
+            else if(count < array_size)
+            {
+                array_size = count;
+                T* temp = new T[array_size];
+                for(int i = 0; i < count; i++)
+                {
+                    temp[i] = array[i];
+                }
+                delete[] array;
+                array = new T[array_size];
+                for(int i = 0; i < array_size; i++)
+                {
+                    array[i] = temp[i];
+                }
+                delete[] temp;
+                temp = nullptr;
+            }
+            else
+            {
+                array_size = count;
+                array = new T[count];
+            }
+        }
+        constexpr void resize( size_type count, const value_type& value )
+        {
+            if(array == nullptr)
+            {
+                array_size = count;
+                array = new T[array_size];
+                for(int i =0; i < array_size; i++)
+                {
+                    array[i] = value;
+                }
+            }
+            if(count > array_size)
+            {
+                const size_type tempHolder = array_size;
+                array_size = count;
+                T* temp = new T[array_size];
+                for(int i = 0; i < tempHolder; i++)
+                {
+                    temp[i] = array[i];
+                }
+                delete[] array;
+                array = new T[array_size];
+                for(int i = 0; i < tempHolder; i++)
+                {
+                    array[i] = temp[i];
+                }
+                for(int i = tempHolder; i < array_size; i++)
+                {
+                    array[i] = value;
+                }
+                delete[] temp;
+                temp = nullptr;
+            }
+            else
+            {
+                array_size = count;
+                T* temp = new T[array_size];
+                for(int i = 0; i < count; i++)
+                {
+                    temp[i] = array[i];
+                }
+                delete[] array;
+                array = new T[array_size];
+                for(int i = 0; i < array_size; i++)
+                {
+                    array[i] = temp[i];
+                }
+                delete[] temp;
+                temp = nullptr;
+            }
+        }
         ~Vector()
         {
             delete[] array;
@@ -451,9 +561,9 @@ int main()
     my::Vector<int> v{1, 2, 3, 4, 5, 6};
     std::cout << v.empty() << "\n";
     my::Vector<int> dem = {2,3,4,5,6,7,1,2,3,4,4,5,6,7,8,90,1,2,3,4,5,6};
-    std::cout << "\size of array before reserve is : " << dem.size() << "\n";
+    std::cout << "size of array before reserve is : " << dem.size() << "\n";
     dem.reserve(4);
-    std::cout << "\size of array after reserve is : " << dem.size() << "\n";
+    std::cout << "size of array after reserve is : " << dem.size() << "\n";
     dem.assign({1,2,3,4,5});
     dem.insert(0,{8,6,9,3});
     dem.print(); std::cout << "\n";
@@ -464,6 +574,9 @@ int main()
     std::cout << dem[2]<<"\n";
     dem.print();
     dem.push_back(99);
+    std::cout << "\n";
+    dem.print();
+    dem.pop_back();
     std::cout << "\n";
     dem.print();
     std::cout << "\nHello World!\n";
