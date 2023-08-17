@@ -587,33 +587,51 @@ namespace my
             end_ptr = &array[array_size - 1];
             return (end_ptr);
         }
-        //template <>
-        //friend bool operator==(Vector& obj1, Vector& obj2);
-    };
-
-    /*template <typename U>
-    bool Vector<T>::operator==(Vector& obj1, Vector& obj2)
-    {
-        if (obj1.array_size == obj2.array_size)
+        
+        bool operator== (Vector<T>& obj)
         {
-            for (int i = 0; i < std::min(obj1.array_size, obj2.array_size); i++)
+            if (array_size == obj.array_size)
             {
-                if (obj1.array[i] != obj2.array)
+                for (int i = 0; i < std::min(array_size, obj.array_size); i++)
                 {
-                    return false;
+                    if (array[i] != obj.array[i])
+                    {
+                        return false;
+                    }
                 }
+                return true;
+            }
+            return false;
+        }
+        bool operator!= (Vector<T>& obj)
+        {
+            if (array_size == obj.array_size)
+            {
+                for (int i = 0; i < std::min(array_size, obj.array_size); i++)
+                {
+                    if (array[i] != obj.array[i])
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
             return true;
         }
-        return false;
-    }*/
+    };
+
 }
 
 
 int main()
 {
     my::Vector<int> v{1, 2, 3, 4, 5, 6};
-    my::Vector<int> v0{6, 5, 4, 3, 2, 1};
+    my::Vector<int> v0{1, 2, 3, 4, 5, 6};
+    if(v==v0)
+    {
+        std::cout<<"equal\n";
+    }
+    else{std::cout<<"not equal\n";}
     v0.swap(v);
     v.print();
     std::cout << "\n";
@@ -639,4 +657,3 @@ int main()
     dem.print();
     std::cout << "\nHello World!\n";
 }
-
