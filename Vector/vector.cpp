@@ -411,6 +411,7 @@ namespace my
             }
             temp[array_size - 1] = element;
             delete[] array;
+            array = new T[array_size]; 
             for (int i = 0; i < array_size; i++)
             {
                 array[i] = temp[i];
