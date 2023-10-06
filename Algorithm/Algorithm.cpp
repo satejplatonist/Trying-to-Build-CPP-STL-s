@@ -66,6 +66,37 @@ namespace my
             }
             std::cout << truth_value;
         }
+
+        template <typename T>
+        void binarySearch(T * first_,T *last_,T elm)
+        {
+            bool truth_value=false;
+            std::vector<int> temp_elm_storage{};
+            for(auto ptr=first_;ptr<=last_;++ptr)
+            {
+                temp_elm_storage.push_back(*ptr);
+            }
+            auto left=temp_elm_storage.begin();
+            auto right=temp_elm_storage.end();
+            while(left!=right)
+            {
+                auto mid=left++;
+                if(elm<*mid)
+                {
+                    right=mid-1;
+                }
+                else if(elm>*mid)
+                {
+                    left=mid+1;
+                }
+                else if(elm==*mid)
+                {
+                    truth_value=true;
+                    break;
+                }
+            }
+            std::cout<<truth_value;
+        }
     };
 }
 
