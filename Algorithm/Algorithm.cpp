@@ -93,30 +93,55 @@ namespace my
             std::cout<<truth_value;
         }
         
+        template <typename T>
+        void binarySearch(std::vector<T>& arr, T elm)
+        {
+            bool truth_value=false;
+            std::size_t left=0;
+            std::size_t right=arr.size()-1;
+            while(left<=right)
+            {
+                std::size_t mid=(left+right)/2;
+                if(elm<arr[mid])
+                {
+                    right=mid-1;
+                }
+                else if(elm>arr[mid])
+                {
+                    left=mid+1;
+                }
+                else if(elm==arr[mid])
+                {
+                    truth_value=true;
+                    break;
+                }
+            }
+            std::cout<<truth_value;
+        }
         
         template <typename T>
         void binarySearch(T * first_,T *last_,T elm)
         {
-            bool truth_value=false;
             std::vector<int> temp_elm_storage{};
             for(auto ptr=first_;ptr<=last_;++ptr)
             {
                 temp_elm_storage.push_back(*ptr);
             }
-            auto left=temp_elm_storage.begin();
-            auto right=temp_elm_storage.end();
+            bool truth_value=false;
+            std::size_t left=0;
+            std::size_t right=temp_elm_storage.size()-1;
             while(left<=right)
             {
-                auto mid=left++;
-                if(elm<*mid)
+                std::size_t mid=(left+right)/2;
+                if(elm<temp_elm_storage[mid])
                 {
                     right=mid-1;
                 }
-                else if(elm>*mid)
+                else if(elm>temp_elm_storage[mid])
                 {
                     left=mid+1;
                 }
-                else if(elm==*mid)
+                else if(elm==temp_elm_storage[mid])
                 {
                     truth_value=true;
                     break;
