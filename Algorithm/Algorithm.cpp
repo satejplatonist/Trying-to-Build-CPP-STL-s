@@ -67,6 +67,33 @@ namespace my
             std::cout << truth_value;
         }
 
+        template <typename T,std::size_t N>
+        void binarySearch(T(&arr)[N],T elm)
+        {
+            bool truth_value=false;
+            std::size_t left=0;
+            std::size_t right=N-1;
+            while(left<=right)
+            {
+                std::size_t mid=(left+right)/2;
+                if(arr[mid]>elm)
+                {
+                    right=mid-1;
+                }
+                else if(arr[mid]<elm)
+                {
+                    left=mid+1;
+                }
+                else if(arr[mid]==elm)
+                {
+                    truth_value=true;
+                    break;
+                }
+            }
+            std::cout<<truth_value;
+        }
+        
+        
         template <typename T>
         void binarySearch(T * first_,T *last_,T elm)
         {
@@ -78,7 +105,7 @@ namespace my
             }
             auto left=temp_elm_storage.begin();
             auto right=temp_elm_storage.end();
-            while(left!=right)
+            while(left<=right)
             {
                 auto mid=left++;
                 if(elm<*mid)
