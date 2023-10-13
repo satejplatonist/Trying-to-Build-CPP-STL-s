@@ -180,6 +180,41 @@ namespace my
             }
             std::cout << truth_value;
         }
+
+      template <typename T,std::size_t N>
+      void ternarySearch(T(&arr)[N],T elm)
+      {
+            bool truth_value=false;
+            std::size_t left=0;
+            std::size_t right=N-1;
+            while(left!=right)
+            {
+                std::size_t mid1=left+(right-left)/3;
+                std::size_t mid2=right-(right+left)/3;
+                if(elm==arr[mid1])
+                {
+                    truth_value=true;
+                }
+                else if(elm==arr[mid2])
+                {
+                    truth_value=true;
+                }
+                else if(elm<arr[mid1])
+                {
+                    right=mid1-1;
+                }
+                else if(elm>arr[mid2])
+                {
+                    left=mid2+1;
+                }
+                else
+                {
+                    left=mid1+1;
+                    right=mid2-1;
+                }
+            }
+            std::cout<<truth_value;
+     }
     };
 }
 
