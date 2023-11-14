@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 namespace my
 {
@@ -181,9 +182,9 @@ namespace my
             std::cout << truth_value;
         }
 
-      template <typename T,std::size_t N>
-      void ternarySearch(T(&arr)[N],T elm)
-      {
+        template <typename T,std::size_t N>
+        void ternarySearch(T(&arr)[N],T elm)
+        {
             bool truth_value=false;
             std::size_t left=0;
             std::size_t right=N-1;
@@ -214,7 +215,38 @@ namespace my
                 }
             }
             std::cout<<truth_value;
-     }
+        }
+        
+        template <typename T, std::size_t N>
+        void jumpSearch(T(&arr)[N],T elm)
+        {
+            int jump_index=static_cast<int>(sqrt(N));
+            bool truth_value=false;
+            int i=0;
+            while(i<N)
+            {
+                if(arr[i]==elm)
+                {
+                    truth_value=true;
+                }
+                else if(arr[i]!=elm)
+                {
+                    int temp=i;
+                    i+=jump_index;  
+                    if(elm<arr[i])
+                    {
+                        for(int j=temp;j<=i;j++)
+                        {
+                            if(arr[j]==elm)
+                            {
+                                truth_value=true;
+                            }
+                        }
+                    }
+                }
+            }
+            std::cout<<truth_value;
+        }
     };
 }
 
@@ -222,8 +254,9 @@ namespace my
 int main()
 {
     std::vector<int> array{ 1,2,3,4,5,6,7,8 };
+    int arr[16]{0, 1, 1, 2, 3, 5, 8, 13, 21,34, 55, 89, 144, 233, 377, 610 };
     my::Algorithms obj;
     obj.linearSearch<int>(array.begin(), array.end(), 9);
-    obj.binarySearch<int>(array.begin(),array.end(),8);
+    obj.jumpSearch<int,16>(arr,55);
     std::cout << "Hello World!\n";
 }
